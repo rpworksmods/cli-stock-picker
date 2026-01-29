@@ -1,37 +1,26 @@
 def stock_picker(days)
-  # return two days in an array representing best day to buy and best day to sell
-  # Best day to sell: lowest number in array
-  # Best day to buy: highest number in array
-  ### BUT!! - Must buy before selling!!! #####
-  # Use array item's index to determine which day each price relates to (0,1,2,3,4 e.t.c.)
-  
-  # Get highest number
-  highest = days.max
-  # Get lowest number
-  lowest = days.min
-  # Check if highest num's index is lower or higher than lowest num's index
-  # Highest number MUST be after lowest number! (Highest has bigger index)
-  if days.index(highest) > days.index(lowest)
-    puts highest
-    puts lowest
-  else
-    # If highest number is before lowest number, find the next highest number
-    highest = days.max(2)[1]
-    lowest = days.min(2)[1]
-    puts highest
-    puts lowest
-  end
-  
-  
-  
-  # Then do the above the other way around - If highest number is before lowest number, this time find the next lowest number
-  # calculate which option was most profitable
-  # return results
 
+  # Loop through days
+  # For each day, subtract price from every day's price before it
+  # Store the highest sum and the corresponding indices
+  best_profit = 0
+  best_days = [0,0] # [buy_day, sell_day]
+
+  days.each_with_index do |sell_price, sell_day|
+    days[0...sell_day].each_with_index do |buy_price, buy_day|
+      profit = sell_price - buy_price
+      if profit > best_profit
+        best_profit = profit
+        best_days = [buy_day, sell_day]
+      end
+    end
+  end
+
+  puts best_days
 
 end
 
-stock_picker([17,3,6,9,15,8,6,1,10])
+stock_picker([17,19,3,6,9,15,8,6,1,10])
 
 # Post-MVP:
 # Beautify user input
